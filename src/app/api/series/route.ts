@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import https from 'https';
-import redis from '@/lib/redis'; // make sure this path is correct
+import redis from '@/lib/redis';
 
 export async function GET() {
-  const cacheKey = 'cricbuzz-recent-matches';
+  const cacheKey = 'cricbuzz-series-list';
 
   try {
     // Check cache
@@ -13,13 +13,13 @@ export async function GET() {
     }
 
     // Fetch from API
-    const data = await fetchCricketData();
+    const data = await fetchSeriesData();
     if (!data) throw new Error('No data received from API');
 
     // Calculate seconds until midnight
     const now = new Date();
     const midnight = new Date(now);
-    midnight.setHours(24, 0, 0, 0); // next day's midnight
+    midnight.setHours(24, 0, 0, 0);
     const secondsUntilMidnight = Math.floor((midnight.getTime() - now.getTime()) / 1000);
 
     // Store in Redis with TTL
@@ -32,34 +32,41 @@ export async function GET() {
   }
 }
 
-function fetchCricketData(): Promise<any> {
+function fetchSeriesData(): Promise<any> {
   return new Promise((resolve, reject) => {
     const options = {
       method: 'GET',
       hostname: 'cricbuzz-cricket.p.rapidapi.com',
       port: null,
-      path: '/matches/v1/recent',
+      path: '/series/v1/international',
       headers: {
         'x-rapidapi-key': '8bbcdaa891mshb3efc72ffc757a7p18f5abjsn01fe66602407',
-        'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com',
-      },
+        'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com'
+      }
     };
 
-    const req = https.request(options, (res) => {
-      const chunks: Uint8Array[] = [];
+    const req = https.request(options, (res: any) => {
+      const chunks: Buffer[] = [];
 
-      res.on('data', (chunk) => chunks.push(chunk));
+      res.on('data', (chunk: Buffer) => {
+        chunks.push(chunk);
+      });
+
       res.on('end', () => {
-        const body = Buffer.concat(chunks).toString();
+        const body = Buffer.concat(chunks);
         try {
-          resolve(JSON.parse(body));
-        } catch (err) {
-          reject(new Error('Failed to parse API response as JSON'));
+          const data = JSON.parse(body.toString());
+          resolve(data);
+        } catch (error) {
+          reject(error);
         }
       });
     });
 
-    req.on('error', reject);
+    req.on('error', (error: Error) => {
+      reject(error);
+    });
+
     req.end();
   });
 }
