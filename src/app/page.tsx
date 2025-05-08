@@ -32,8 +32,12 @@ export default function Home() {
   // Shuffle matches randomly
   const shuffledMatches = [...allMatches].sort(() => 0.5 - Math.random());
 
+  const handleMatchClick = (matchId: string) => {
+    router.push(`/previous-matches/match-score/${matchId}`);
+  };
+
   return (
-    <main className="min-h-screen px-6 py-20 bg-gray-50">
+    <main className="min-h-screen px-6 py-20 bg-gradient-to-b from-gray-50 to-gray-100">
       <section className="max-w-4xl mx-auto text-center mb-16">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">Your Cricket Match Archive</h1>
         <p className="text-gray-600 text-lg">
@@ -41,14 +45,14 @@ export default function Home() {
         </p>
         <button
           onClick={() => router.push('/previous-matches/0')}
-          className="mt-6 px-6 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition"
+          className="mt-6 px-6 py-3 bg-emerald-600 text-white font-medium rounded-xl hover:bg-emerald-700 transition shadow-md hover:shadow-lg"
         >
           View Full Match History
         </button>
       </section>
 
       <section className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {shuffledMatches.slice(0, 6).map((match: any, idx: number) => {
+        {shuffledMatches.slice(0, 6).map((match, idx) => {
           const { matchInfo, matchScore, matchType, seriesName } = match;
           const team1 = matchInfo.team1;
           const team2 = matchInfo.team2;
@@ -58,11 +62,12 @@ export default function Home() {
           return (
             <div
               key={idx}
-              className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition"
+              onClick={() => handleMatchClick(matchInfo.matchId)}
+              className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition cursor-pointer hover:border-emerald-200 hover:bg-emerald-50/30"
             >
-              <div className="text-xs text-blue-600 font-medium uppercase mb-1">{matchType}</div>
+              <div className="text-xs text-emerald-600 font-medium uppercase mb-1">{matchType}</div>
               <div className="text-sm text-gray-500 mb-1">{seriesName}</div>
-              <h3 className="text-lg font-bold text-gray-700">{matchInfo.matchDesc}</h3>
+              <h3 className="text-lg font-bold text-gray-800">{matchInfo.matchDesc}</h3>
               <p className="text-sm text-gray-500 mb-3">
                 {matchInfo.venueInfo.ground}, {matchInfo.venueInfo.city}
               </p>
@@ -86,7 +91,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <p className="text-sm font-medium text-green-600">{matchInfo.status}</p>
+              <p className="text-sm font-medium text-emerald-600">{matchInfo.status}</p>
             </div>
           );
         })}

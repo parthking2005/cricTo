@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 // import redis from '@/lib/redis'; // make sure this is correct
 
 // export async function GET() {
-//   const matchId = '40381';
+//   const matchId = '115345';
 //   const cacheKey = `live-score-${matchId}`;
 
 //   try {
@@ -26,37 +26,7 @@ import { NextResponse } from 'next/server';
 //   }
 // }
 
-// function fetchLiveScore(matchId: string): Promise<any> {
-//   return new Promise((resolve, reject) => {
-//     const options = {
-//       method: 'GET',
-//       hostname: 'cricbuzz-cricket.p.rapidapi.com',
-//       port: null,
-//       path: `/mcenter/v1/${matchId}/scard`,
-//       headers: {
-//         'x-rapidapi-key': '8bbcdaa891mshb3efc72ffc757a7p18f5abjsn01fe66602407',
-//         'x-rapidapi-host': 'cricbuzz-cricket.p.rapidapi.com',
-//       },
-//     };
 
-//     const req = https.request(options, (res) => {
-//       const chunks: Uint8Array[] = [];
-
-//       res.on('data', (chunk) => chunks.push(chunk));
-//       res.on('end', () => {
-//         try {
-//           const body = Buffer.concat(chunks).toString();
-//           resolve(JSON.parse(body));
-//         } catch (err) {
-//           reject(new Error('Failed to parse API response'));
-//         }
-//       });
-//     });
-
-//     req.on('error', reject);
-//     req.end();
-//   });
-// }
 
 
 const data = {
