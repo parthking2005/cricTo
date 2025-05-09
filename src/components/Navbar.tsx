@@ -11,8 +11,9 @@ export default function Navbar() {
     <div className='fixed top-0 w-full z-96'>
     <nav className="w-full bg-black border-b-2 border-white h-16 items-center flex text-white text-xl">
       <div className="ml-8">CricTo</div>
-      <ul className="flex justify-around w-96 right-0 absolute">
+      <ul className="flex justify-around w-[30rem] right-0 absolute">
         <li onClick={() => router.push("/")} className='hover:text-gray-300 cursor-pointer'>Home</li>
+        <li onClick={() => router.push("/news")} className='hover:text-gray-300 cursor-pointer'>News</li>
         <li onClick={() => router.push("/blog")} className='hover:text-gray-300 cursor-pointer'>Blog</li>
         <li onClick={() => router.push("/contact")} className='hover:text-gray-300 cursor-pointer'>Contact</li>
         <li onClick={() => router.push("/about")} className='hover:text-gray-300 cursor-pointer'>About</li>
