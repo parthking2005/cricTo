@@ -56,6 +56,14 @@ interface SeriesResponse {
   };
 }
 
+// Loading spinner component
+const LoadingSpinner = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh]">
+    <div className="w-16 h-16 border-4 border-gray-200 border-t-emerald-500 rounded-full animate-spin"></div>
+    <p className="mt-4 text-gray-600 font-medium">Loading series data...</p>
+  </div>
+);
+
 export default function SeriesPage() {
   const { seriesId } = useParams();
   const [seriesData, setSeriesData] = useState<SeriesResponse | null>(null);
@@ -88,7 +96,7 @@ export default function SeriesPage() {
     return (
       <div className="min-h-screen px-6 py-20 bg-gradient-to-b from-gray-50 to-gray-100">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center text-gray-600">Loading matches...</div>
+          <LoadingSpinner />
         </div>
       </div>
     );
@@ -98,7 +106,13 @@ export default function SeriesPage() {
     return (
       <div className="min-h-screen px-6 py-20 bg-gradient-to-b from-gray-50 to-gray-100">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center text-red-600">{error}</div>
+          <div className="text-center p-8 bg-white rounded-lg shadow-sm border border-red-100">
+            <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h2 className="text-xl font-bold text-gray-800 mb-2">Error Loading Series</h2>
+            <p className="text-red-600">{error}</p>
+          </div>
         </div>
       </div>
     );
@@ -113,7 +127,13 @@ export default function SeriesPage() {
     return (
       <div className="min-h-screen px-6 py-20 bg-gradient-to-b from-gray-50 to-gray-100">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center text-gray-600">No matches found for this series</div>
+          <div className="text-center p-8 bg-white rounded-lg shadow-sm">
+            <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h2 className="text-xl font-bold text-gray-800 mb-2">No Matches Found</h2>
+            <p className="text-gray-600">There are no matches available for this series</p>
+          </div>
         </div>
       </div>
     );

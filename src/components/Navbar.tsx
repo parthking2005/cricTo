@@ -8,7 +8,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   return (
-    <div className='fixed top-0 w-full'>
+    <div className='fixed top-0 w-full z-96'>
     <nav className="w-full bg-black border-b-2 border-white h-16 items-center flex text-white text-xl">
       <div className="ml-8">CricTo</div>
       <ul className="flex justify-around w-96 right-0 absolute">
